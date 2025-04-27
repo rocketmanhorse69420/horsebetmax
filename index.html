@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HorseBetMax: Instant Horse Betting</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .container { max-width: 800px; }
+        .bet-table th, .horse-table th { background-color: #007bff; color: white; }
+        .sentiment { font-style: italic; color: #6c757d; }
+        footer { margin-top: 20px; text-align: center; }
+        #bet-output { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="text-center">HorseBetMax</h1>
+        <h3 class="text-center">Instant Horse Betting with AI</h3>
+        <p class="text-center">Enter race details to get high-ROI bets in seconds.</p>
+
+        <h4>Race Input</h4>
+        <form id="race-form">
+            <div class="mb-3">
+                <label for="race-date" class="form-label">Race Date (e.g., 2025-04-27)</label>
+                <input type="date" class="form-control" id="race-date" required>
+            </div>
+            <div class="mb-3">
+                <label for="track-name" class="form-label">Track Name (e.g., Santa Anita)</label>
+                <input type="text" class="form-control" id="track-name" required>
+            </div>
+            <div class="mb-3">
+                <label for="budget" class="form-label">Budget ($)</label>
+                <input type="number" class="form-control" id="budget" value="20" min="1">
+            </div>
+            <button type="submit" class="btn btn-primary">Get Bets</button>
+        </form>
+
+        <div id="bet-output" class="mt-4">
+            <h4>Bet Recommendations</h4>
+            <table class="table table-striped bet-table">
+                <thead>
+                    <tr><th>Horse(s)</th><th>Bet Type</th><th>Amount ($)</th><th>Expected ROI</th></tr>
+                </thead>
+                <tbody id="bet-table-body"></tbody>
+            </table>
+            <h4>Horse Details</h4>
+            <table class="table table-striped horse-table">
+                <thead>
+                    <tr><th>Horse</th><th>Odds</th><th>Form</th><th>Trainer</th><th>Jockey</th><th>Track Suitability</th><th>Win Prob</th></tr>
+                </thead>
+                <tbody id="horse-table-body"></tbody>
+            </table>
+            <h4>Sentiment Insights</h4>
+            <p id="sentiment-text" class="sentiment"></p>
+        </div>
+
+        <footer>
+            <p>Bet responsibly. Support: <a href="http://www.gamblinghelponline.org.au">Gambling Help</a> or call 1800 858 858.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.getElementById('race-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const date = document.getElementById('race-date').value;
+            const track = document.getElementById('track-name').value;
+            const budget = parseFloat(document.getElementById('budget').value);
+
+            // Placeholder for Grok 3 API call
+            const bets = [
+                { horses: 'Horse A', type: 'Win', amount: (budget * 0.4).toFixed(2), roi: '120%' },
+                { horses: 'Horse B', type: 'Place', amount: (budget * 0.2).toFixed(2), roi: '100%' },
+                { horses: 'Horse A, Horse B, Horse C', type: 'Exacta Box', amount: (budget * 0.15).toFixed(2), roi: '900–1400%' },
+                { horses: 'Horse A, Horse B, Horse C, Horse D', type: 'Trifecta Box', amount: (budget * 0.2).toFixed(2), roi: '2900–4900%' },
+                { horses: 'Horse A (1st), Horse B, Horse C, Horse D, Horse E', type: 'Superfecta Key', amount: (budget * 0.05).toFixed(2), roi: '9900–24900%' }
+            ];
+            const horses = [
+                { name: 'Horse A', odds: '6/5', form: 'Won G2', trainer: 'Elite', jockey: 'Top', track: 'High', prob: '39.3%' },
+                { name: 'Horse B', odds: '7/2', form: 'Placed G3', trainer: 'Solid', jockey: 'Strong', track: 'High', prob: '21.5%' },
+                { name: 'Horse C', odds: '5/1', form: '2nd G2', trainer: 'Good', jockey: 'Consistent', track: 'Good', prob: '16.2%' },
+                { name: 'Horse D', odds: '8/1', form: '3rd G3', trainer: 'Promising', jockey: 'Rising', track: 'Good', prob: '10.8%' },
+                { name: 'Horse E', odds: '20/1', form: 'Placed Listed', trainer: 'Average', jockey: 'Average', track: 'Fair', prob: '4.7%' }
+            ];
+            const sentiment = 'Positive sentiment for Horse A on X, strong market confidence.';
+
+            // Populate tables
+            const betTableBody = document.getElementById('bet-table-body');
+            betTableBody.innerHTML = bets.map(b => `<tr><td>${b.horses}</td><td>${b.type}</td><td>${b.amount}</td><td>${b.roi}</td></tr>`).join('');
+            const horseTableBody = document.getElementById('horse-table-body');
+            horseTableBody.innerHTML = horses.map(h => `<tr><td>${h.name}</td><td>${h.odds}</td><td>${h.form}</td><td>${h.trainer}</td><td>${h.jockey}</td><td>${h.track}</td><td>${h.prob}</td></tr>`).join('');
+            document.getElementById('sentiment-text').textContent = sentiment;
+            document.getElementById('bet-output').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
